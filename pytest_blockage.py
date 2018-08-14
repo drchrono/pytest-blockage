@@ -5,6 +5,7 @@ else:
     import http.client as httplib
 import logging
 import smtplib
+import re
 
 
 logger = logging.getLogger(__name__)
@@ -19,13 +20,18 @@ class MockSmtpCall(Exception):
 
 
 def block_http(whitelist):
+    whitelist_regexes = tuple(map(re.compile, whitelist))
+
     def whitelisted(self, host, *args, **kwargs):
         try:
             string_type = basestring
         except NameError:
             # python3
             string_type = str
-        if isinstance(host, string_type) and host not in whitelist:
+        if (
+            isinstance(host, string_type)
+            and not len(i for i in whitelist_regexes if i.match(host))
+        ):
             logger.warning('Denied HTTP connection to: %s' % host)
             raise MockHttpCall(host)
         logger.debug('Allowed HTTP connection to: %s' % host)
