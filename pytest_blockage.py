@@ -30,7 +30,7 @@ def block_http(whitelist):
             string_type = str
         if (
             isinstance(host, string_type)
-            and not len(i for i in whitelist_regexes if i.match(host))
+            and not len([i for i in whitelist_regexes if i.match(host)])
         ):
             logger.warning('Denied HTTP connection to: %s' % host)
             raise MockHttpCall(host)
