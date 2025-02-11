@@ -1,0 +1,16 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: pytest-blockage
+  description: py.test plugin that can disable network requests during a test run.
+  annotations:
+    business-unit: EverHealth
+    github.com/project-slug: drchrono/pytest-blockage
+    product: DRC
+spec:
+  type: service
+  lifecycle: production
+  owner: EverHealth
+  implementation:
+    languages:
+    - Python
